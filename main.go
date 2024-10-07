@@ -8,13 +8,13 @@ import (
 
 func main() {
 	var addr string
-	if host := os.Getenv("LABMATE_API_HOST"); host != "" {
-		addr = fmt.Sprintf("%s:8080", host)
+	if env := os.Getenv("ENV"); env == "DEV" {
+		addr = "localhost:8080"
 	} else {
 		addr = ":8080"
 	}
 
-	api := &api{addr: addr}
+	api := &api{addr: ":8080"}
 
 	mux := http.NewServeMux()
 
