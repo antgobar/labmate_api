@@ -2,26 +2,21 @@ package main
 
 import (
 	"log"
-	"os"
+
+	"github.com/antgobar/labmate_api/internal/env"
+	"github.com/antgobar/labmate_api/internal/store"
 )
 
 func main() {
 
-	port := "8080"
-
-	var addr string
-	if os.Getenv("LABMATE_API_ENV") == "DEV" {
-		addr = "localhost:" + port
-	} else {
-		addr = ":" + port
-	}
-
 	cfg := config{
-		addr: addr,
+		addr: env.GetString("ADDR", ":8080"),
 	}
+	store := store.NewStorage(nil)
 
 	app := &application{
 		config: cfg,
+		store:  store,
 	}
 
 	mux := app.mount()
