@@ -6,15 +6,9 @@ import (
 	"os"
 )
 
-func main() {
-	var addr string
-	if env := os.Getenv("ENV"); env == "DEV" {
-		addr = "localhost:8080"
-	} else {
-		addr = ":8080"
-	}
 
-	api := &api{addr: ":8080"}
+func main() {
+	api := &Api{addr: os.Getenv("API_ADDR")}
 
 	mux := http.NewServeMux()
 
@@ -25,6 +19,6 @@ func main() {
 
 	mux.HandleFunc("GET /users", api.getUsersHandler)
 	mux.HandleFunc("POST /users", api.createUsersHandler)
-	fmt.Printf("Running server on addr %s\n", addr)
+	fmt.Printf("Running server on addr %s\n", api.addr)
 	srv.ListenAndServe()
 }

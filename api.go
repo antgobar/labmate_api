@@ -7,13 +7,18 @@ import (
 	"net/http"
 )
 
-type api struct {
+type Api struct {
 	addr string
+}
+
+type User struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
 }
 
 var users = []User{}
 
-func (s *api) getUsersHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Api) getUsersHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	err := json.NewEncoder(w).Encode(users)
@@ -23,7 +28,7 @@ func (s *api) getUsersHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *api) createUsersHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Api) createUsersHandler(w http.ResponseWriter, r *http.Request) {
 	var payload User
 	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
